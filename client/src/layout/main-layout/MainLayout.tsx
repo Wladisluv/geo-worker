@@ -1,7 +1,9 @@
 import Sidebar from "../../components/sidebar/Sidebar";
 import Header from "../../components/header/Header";
-import styles from "./MainLayout.module.scss";
 import { Box } from "@mui/material";
+import { Outlet } from "react-router-dom";
+
+import styles from "./MainLayout.module.scss";
 
 const MainLayout = () => {
   return (
@@ -21,7 +23,9 @@ const MainLayout = () => {
             backgroundColor: "#fff",
           }}
         >
-          <div className={styles.inner}></div>
+          <div className={styles.inner}>
+            <Outlet />
+          </div>
         </Box>
       </div>
     </div>

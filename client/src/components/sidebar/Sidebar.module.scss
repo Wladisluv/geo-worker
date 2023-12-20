@@ -15,6 +15,9 @@
 }
 
 .text {
+  a {
+    display: flex;
+  }
   span {
     font-size: 22px !important;
   }

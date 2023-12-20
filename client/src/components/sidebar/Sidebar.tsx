@@ -12,6 +12,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import PublicIcon from "@mui/icons-material/Public";
 
 import styles from "./Sidebar.module.scss";
+import { Link } from "react-router-dom";
 
 const PermanentDrawer = () => {
   const icons = [AccountCircleIcon, WorkIcon, PublicIcon];
@@ -25,12 +26,14 @@ const PermanentDrawer = () => {
         <List className={styles.list}>
           {["Employees", "Positions", "Map"].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon style={{ color: "#fff" }}>
-                  {React.createElement(icons[index])}
-                </ListItemIcon>
-                <ListItemText primary={text} className={styles.text} />
-              </ListItemButton>
+              <Link to={text.toLowerCase()} style={{ width: "100%" }}>
+                <ListItemButton>
+                  <ListItemIcon style={{ color: "#fff" }}>
+                    {React.createElement(icons[index])}
+                  </ListItemIcon>
+                  <ListItemText primary={text} className={styles.text} />
+                </ListItemButton>
+              </Link>
             </ListItem>
           ))}
         </List>
