@@ -1,0 +1,21 @@
+.sidebar {
+  background-color: #111111 !important;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  h1 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+  }
+}
+
+.text {
+  span {
+    font-size: 22px !important;
+  }
+}
