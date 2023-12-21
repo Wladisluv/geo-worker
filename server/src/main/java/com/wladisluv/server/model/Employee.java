@@ -1,8 +1,10 @@
 package com.wladisluv.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Entity
 @Table(name = "employees")
@@ -18,17 +20,23 @@ public class Employee {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "position_id", insertable = false, updatable = false)
+    private Long positionId;
+
     @Column(name = "hire_date")
     private LocalDate hireDate;
 
-    @Column(name = "location", columnDefinition = "POINT")
-    private String location;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "lat", column = @Column(name = "location_lat")),
+            @AttributeOverride(name = "lng", column = @Column(name = "location_lng"))
+    })
+    private GeoLocation location;
 
-    @OneToOne
-    @JoinColumn(name = "position_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "position_id", referencedColumnName = "position_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Position position;
-
-    // Конструкторы, геттеры, сеттеры и другие методы...
 
     public Long getId() {
         return id;
@@ -62,12 +70,16 @@ public class Employee {
         this.hireDate = hireDate;
     }
 
-    public String getLocation() {
+    public GeoLocation getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(GeoLocation location) {
         this.location = location;
+    }
+
+    public Long getPositionId() {
+        return positionId;
     }
 
     public Position getPosition() {

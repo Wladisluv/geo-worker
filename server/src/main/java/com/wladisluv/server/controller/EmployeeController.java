@@ -18,21 +18,20 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> getEmployees() {
         return new ResponseEntity<>(employeeService.getEmployees(), HttpStatus.FOUND);
     }
-
-    @PostMapping("/add")
+    @GetMapping("/employee/{id}")
+    public Employee getEmployeeById(@PathVariable Long id){
+        return employeeService.getEmployeeById(id);
+    }
+    @PostMapping
     public Employee addEmployee(@RequestBody Employee employee){
         return employeeService.addEmployee(employee);
     }
-    @PostMapping("/update/{id}")
-    public Employee updateEmployee(@RequestBody Employee employee, Long id){
+    @PutMapping("/update/{id}")
+    public Employee updateEmployee(@RequestBody Employee employee, @PathVariable Long id){
         return employeeService.updateEmployee(employee, id);
     }
     @DeleteMapping("/delete/{id}")
     public void deleteEmployee(@PathVariable Long id){
         employeeService.deleteEmployee(id);
-    }
-    @PostMapping("/employee/{id}")
-    public Employee getEmployeeById(@PathVariable Long id){
-        return employeeService.getEmployeeById(id);
     }
 }
