@@ -1,10 +1,11 @@
 package com.wladisluv.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.wladisluv.server.helpers.CustomLocalDateDeserializer;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Entity
 @Table(name = "employees")
@@ -24,6 +25,7 @@ public class Employee {
     private Long positionId;
 
     @Column(name = "hire_date")
+    @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     private LocalDate hireDate;
 
     @Embedded

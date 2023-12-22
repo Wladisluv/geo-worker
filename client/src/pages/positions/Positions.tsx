@@ -1,7 +1,7 @@
 import { Divider } from "@mui/material";
-import Modal from "../../layout/modal/Modal";
 
 import styles from "./Positions.module.scss";
+import PositionDialog from "../../layout/position-dialog/PositionDialog";
 
 const Positions = () => {
   return (
@@ -11,7 +11,7 @@ const Positions = () => {
           <h1>Positions</h1>
         </div>
         <div>
-          <Modal forWhat="positions" modalFunction="add" />
+          <PositionDialog modalFunction="add" />
         </div>
       </div>
       <div className={styles.main}>
@@ -36,7 +36,7 @@ const Positions = () => {
                 marginTop: "-10px",
               }}
             >
-              <Modal forWhat="positions" modalFunction="edit" />
+              <PositionDialog modalFunction="edit" />
             </div>
           </div>
           <Divider sx={{ marginTop: "10px" }} />

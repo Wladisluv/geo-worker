@@ -1,10 +1,19 @@
 import { Divider, InputAdornment, OutlinedInput } from "@mui/material";
-import Modal from "../../layout/modal/Modal";
 import SearchIcon from "@mui/icons-material/Search";
 
 import styles from "./Employees.module.scss";
+import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
+import employeesStore from "../../stores/employees-store";
+import EmployeeDialog from "../../layout/employee-dialog/EmployeeDialog";
 
-const Employees = () => {
+const Employees = observer(() => {
+  useEffect(() => {
+    employeesStore.loadEmployees();
+  }, []);
+
+  console.log(employeesStore.employees);
+
   return (
     <>
       <div className={styles.top}>
@@ -12,7 +21,7 @@ const Employees = () => {
           <h1>Employees</h1>
         </div>
         <div>
-          <Modal forWhat="employees" modalFunction="add" />
+          <EmployeeDialog modalFunction="add" />
         </div>
       </div>
       <OutlinedInput
@@ -41,26 +50,30 @@ const Employees = () => {
           }}
           className={styles.divider}
         />
-        <div className={styles.contentItem}>
-          <div className={styles.contentInner}>
-            <div>Steve Jobs</div>
-            <div>Backend engineer</div>
-            <div>12 Nov 2021</div>
-            <div>Krasnaya street, 21</div>
-            <div
-              style={{
-                textAlign: "end",
-                marginTop: "-10px",
-              }}
-            >
-              <Modal forWhat="employees" modalFunction="edit" />
+        {employeesStore.employees.map((employee) => {
+          return (
+            <div className={styles.contentItem} key={employee.id}>
+              <div className={styles.contentInner}>
+                <div>{`${employee.firstName} ${employee.lastName}`}</div>
+                <div>{employee.position.title}</div>
+                <div>{`${employee.hireDate[2]}/${employee.hireDate[1]}/${employee.hireDate[0]}`}</div>
+                <div>{`${employee.location.lat} ${employee.location.lng}`}</div>
+                <div
+                  style={{
+                    textAlign: "end",
+                    marginTop: "-10px",
+                  }}
+                >
+                  <EmployeeDialog modalFunction="edit" />
+                </div>
+              </div>
+              <Divider sx={{ marginTop: "10px" }} />
             </div>
-          </div>
-          <Divider sx={{ marginTop: "10px" }} />
-        </div>
+          );
+        })}
       </div>
     </>
   );
-};
+});
 
 export default Employees;

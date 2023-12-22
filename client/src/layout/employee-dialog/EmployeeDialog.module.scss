@@ -10,6 +10,11 @@
   max-width: 800px !important;
 }
 
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+
 .middle {
   display: flex;
 }
