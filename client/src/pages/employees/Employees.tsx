@@ -55,9 +55,9 @@ const Employees = observer(() => {
             <div className={styles.contentItem} key={employee.id}>
               <div className={styles.contentInner}>
                 <div>{`${employee.firstName} ${employee.lastName}`}</div>
-                <div>{employee.position.title}</div>
-                <div>{`${employee.hireDate[2]}/${employee.hireDate[1]}/${employee.hireDate[0]}`}</div>
-                <div>{`${employee.location.lat} ${employee.location.lng}`}</div>
+                <div>{employee.position?.title}</div>
+                <div>{employee.hireDate}</div>
+                {/* <div>{`${employee.location.lat} ${employee.location.lng}`}</div> */}
                 <div
                   style={{
                     textAlign: "end",

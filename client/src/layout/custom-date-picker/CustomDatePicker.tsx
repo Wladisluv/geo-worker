@@ -4,11 +4,15 @@ import "dayjs/locale/en-gb";
 
 import styles from "./CustomDatePicker.module.scss";
 
-const CustomDatePicker = () => {
+interface Props {
+  onChange: (selectedDate: Date | null) => void;
+}
+
+const CustomDatePicker = ({ onChange }: Props) => {
   return (
     <div className={styles.datePicker}>
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-        <DatePicker />
+        <DatePicker onChange={onChange} />
       </LocalizationProvider>
     </div>
   );

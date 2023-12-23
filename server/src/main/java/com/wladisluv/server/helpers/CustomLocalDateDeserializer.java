@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
 
     @Override
     public LocalDate deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {

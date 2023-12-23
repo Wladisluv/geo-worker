@@ -25,8 +25,7 @@ public class Employee {
     private Long positionId;
 
     @Column(name = "hire_date")
-    @JsonDeserialize(using = CustomLocalDateDeserializer.class)
-    private LocalDate hireDate;
+    private String hireDate;
 
     @Embedded
     @AttributeOverrides({
@@ -64,11 +63,11 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public LocalDate getHireDate() {
+    public String getHireDate() {
         return hireDate;
     }
 
-    public void setHireDate(LocalDate hireDate) {
+    public void setHireDate(String hireDate) {
         this.hireDate = hireDate;
     }
 

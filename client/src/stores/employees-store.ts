@@ -18,12 +18,13 @@ class EmployeesStore {
     }
   }
 
-  getEmployees() {
-    this.employees = [...this.employees];
-  }
-
-  addEmployee(employee: IEmployee) {
-    this.employees = [...this.employees, employee];
+  async addEmployee(employee: IEmployee) {
+    try {
+      const addedEmployee = await employeesApi.addEmployee(employee);
+      this.employees = [...this.employees, addedEmployee];
+    } catch (error) {
+      console.error("Error adding employee to the store:", error);
+    }
   }
 
   updateEmployee(updatedEmployee: IEmployee) {
