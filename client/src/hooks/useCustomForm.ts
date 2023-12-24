@@ -13,7 +13,7 @@ const useCustomForm = () => {
   const [formData, setFormData] = useState<IEmployee>({
     firstName: "",
     lastName: "",
-    hireDate: "",
+    hireDate: null,
     positionId: 1,
     location: {
       lat: 0,
@@ -26,23 +26,27 @@ const useCustomForm = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleFormSubmit = async (selectedDate: Date | null) => {
-    if (selectedDate) {
-      const formattedDate = dayjs(selectedDate).format("DD MMM YYYY");
+  const handleFormSubmit = async (
+    forWhat: string,
+    selectedDate?: Date | null,
+    employeeId?: number
+  ) => {
+    const newFormData: IEmployee = {
+      firstName: firstNameRef.current?.value || "",
+      lastName: lastNameRef.current?.value || "",
+      hireDate: dayjs(selectedDate).format("DD MMM YYYY"),
+      positionId: 1,
+      location: {
+        lat: 0,
+        lng: 0,
+      },
+    };
 
-      const newFormData: IEmployee = {
-        firstName: firstNameRef.current?.value || "",
-        lastName: lastNameRef.current?.value || "",
-        hireDate: formattedDate,
-        positionId: 1,
-        location: {
-          lat: 0,
-          lng: 0,
-        },
-      };
-
-      setFormData(newFormData);
-      employeesStore.addEmployee(newFormData);
+    setFormData(newFormData);
+    {
+      forWhat === "add"
+        ? employeesStore.addEmployee(newFormData)
+        : employeesStore.updateEmployee(employeeId!, newFormData);
     }
   };
 

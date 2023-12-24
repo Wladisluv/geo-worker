@@ -6,13 +6,12 @@ import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import employeesStore from "../../stores/employees-store";
 import EmployeeDialog from "../../layout/employee-dialog/EmployeeDialog";
+import dayjs from "dayjs";
 
 const Employees = observer(() => {
   useEffect(() => {
     employeesStore.loadEmployees();
   }, []);
-
-  console.log(employeesStore.employees);
 
   return (
     <>
@@ -50,27 +49,39 @@ const Employees = observer(() => {
           }}
           className={styles.divider}
         />
-        {employeesStore.employees.map((employee) => {
-          return (
-            <div className={styles.contentItem} key={employee.id}>
-              <div className={styles.contentInner}>
-                <div>{`${employee.firstName} ${employee.lastName}`}</div>
-                <div>{employee.position?.title}</div>
-                <div>{employee.hireDate}</div>
-                {/* <div>{`${employee.location.lat} ${employee.location.lng}`}</div> */}
-                <div
-                  style={{
-                    textAlign: "end",
-                    marginTop: "-10px",
-                  }}
-                >
-                  <EmployeeDialog modalFunction="edit" />
+        {employeesStore.employees.length === 0 ? (
+          <h2 className={styles.stub}>No workers found</h2>
+        ) : (
+          employeesStore.employees.map((employee) => {
+            return (
+              <div className={styles.contentItem} key={employee.id}>
+                <div className={styles.contentInner}>
+                  <div>{`${employee.firstName} ${employee.lastName}`}</div>
+                  <div>{employee.position?.title}</div>
+                  <div>{employee.hireDate}</div>
+                  <div>{`${employee.location?.lat} ${employee.location?.lng}`}</div>
+                  <div
+                    style={{
+                      textAlign: "end",
+                      marginTop: "-10px",
+                    }}
+                  >
+                    <EmployeeDialog
+                      modalFunction="edit"
+                      employeeId={employee.id}
+                      initialsValue={[
+                        employee.firstName,
+                        employee.lastName,
+                        dayjs(employee.hireDate),
+                      ]}
+                    />
+                  </div>
                 </div>
+                <Divider sx={{ marginTop: "10px" }} />
               </div>
-              <Divider sx={{ marginTop: "10px" }} />
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </>
   );

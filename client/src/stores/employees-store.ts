@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { IEmployee } from "../interfaces/employee.interface";
 import { employeesApi } from "../api/employeesApi";
 
@@ -12,7 +12,9 @@ class EmployeesStore {
   async loadEmployees() {
     try {
       const data = await employeesApi.getEmployees();
-      this.employees = data;
+      runInAction(() => {
+        this.employees = data;
+      });
     } catch (error) {
       console.error("Error loading employees:", error);
     }
@@ -27,15 +29,29 @@ class EmployeesStore {
     }
   }
 
-  updateEmployee(updatedEmployee: IEmployee) {
-    const index = this.employees.findIndex((e) => e.id === updatedEmployee.id);
-    if (index !== -1) {
-      this.employees[index] = updatedEmployee;
+  async updateEmployee(id: number, updatedEmployee: IEmployee) {
+    try {
+      await employeesApi.editEmployee(id, updatedEmployee);
+      const index: number = this.employees.findIndex(
+        (e) => e.id === updatedEmployee.id
+      );
+      if (index !== -1) {
+        this.employees[index] = updatedEmployee;
+      }
+      await this.loadEmployees();
+    } catch (error) {
+      console.log("Error updating employee from store", error);
     }
   }
 
-  deleteEmployee(employeeId: number) {
-    this.employees = this.employees.filter((e) => e.id !== employeeId);
+  async deleteEmployee(id: number, employeeId?: number) {
+    try {
+      await employeesApi.removeEmployee(id);
+      this.employees = this.employees.filter((e) => e.id !== employeeId);
+      await this.loadEmployees();
+    } catch (error) {
+      console.log("Error remove employee from store", error);
+    }
   }
 }
 

@@ -7,6 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import employeesStore from "../../stores/employees-store";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -53,9 +54,10 @@ const StyledMenu = styled((props: MenuProps) => (
 
 interface Props {
   editFoo: () => void;
+  removedEmployee?: () => Promise<void>;
 }
 
-export default function ActionsButton({ editFoo }: Props) {
+export default function ActionsButton({ editFoo, removedEmployee }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -94,10 +96,12 @@ export default function ActionsButton({ editFoo }: Props) {
             Edit
           </MenuItem>
         </div>
-        <MenuItem onClick={handleClose} disableRipple>
-          <DeleteIcon />
-          Remove
-        </MenuItem>
+        <div onClick={handleClose}>
+          <MenuItem onClick={removedEmployee} disableRipple>
+            <DeleteIcon />
+            Remove
+          </MenuItem>
+        </div>
       </StyledMenu>
     </div>
   );

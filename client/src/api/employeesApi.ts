@@ -24,12 +24,32 @@ export const employeesApi = {
         validateStatus: () => true,
       });
       console.log("Server response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error adding employee:", error);
+      throw error;
+    }
+  },
 
-      if (response.status === 302) {
-        return response.data;
-      } else {
-        throw new Error(`Error adding employee. Status: ${response.status}`);
-      }
+  editEmployee: async (id: number, updatedEmployee: IEmployee) => {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/update/${id}`,
+        updatedEmployee
+      );
+      console.log("Server response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error updating employee:", error);
+      throw error;
+    }
+  },
+
+  removeEmployee: async (id: number) => {
+    try {
+      const response = await axios.delete(`${BASE_URL}/delete/${id}`);
+      console.log("Server response:", response.data);
+      return response.data;
     } catch (error) {
       console.error("Error adding employee:", error);
       throw error;
