@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useRef, useEffect, useState } from "react";
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
@@ -31,9 +30,18 @@ export default function Map({ mapCall, onMapClick, employeeMarker }: Props) {
     map.current = new maptilersdk.Map({
       container: mapContainer.current!,
       style: maptilersdk.MapStyle.STREETS,
-      center: [38.976, 45.0448],
+      center: [38.9772, 45.0353],
       zoom: zoom,
     });
+
+    if (employeeMarker) {
+      map.current = new maptilersdk.Map({
+        container: mapContainer.current!,
+        style: maptilersdk.MapStyle.STREETS,
+        center: [employeeMarker?.lng!, employeeMarker?.lat!],
+        zoom: zoom,
+      });
+    }
 
     let newMarker: maptilersdk.Marker | null = null;
     let empMarker: maptilersdk.Marker | null = null;
@@ -49,7 +57,9 @@ export default function Map({ mapCall, onMapClick, employeeMarker }: Props) {
     }
 
     if (employeeMarker) {
-      empMarker = new maptilersdk.Marker({ color: "#FF0000" })
+      empMarker = new maptilersdk.Marker({
+        color: "#FF0000",
+      })
         .setLngLat([employeeMarker?.lng!, employeeMarker?.lat!])
         .addTo(map!.current);
     }
@@ -58,38 +68,35 @@ export default function Map({ mapCall, onMapClick, employeeMarker }: Props) {
 
     console.log(street);
 
-    // Добавляем обработчик кликов на карту
-    map.current.on("click", async (e: any) => {
-      if (empMarker) {
-        empMarker.remove();
-      }
-      const { lng, lat } = e.lngLat;
+    if (mapCall !== "page") {
+      map.current.on("click", async (e: any) => {
+        if (empMarker) {
+          empMarker.remove();
+        }
+        const { lng, lat } = e.lngLat;
 
-      // Удаляем предыдущий маркер, если он существует
-      if (newMarker) {
-        newMarker.remove();
-      }
+        if (newMarker) {
+          newMarker.remove();
+        }
 
-      // Создаем новый маркер на месте клика
-      newMarker = new maptilersdk.Marker({ color: "#FF0000" })
-        .setLngLat([lng, lat])
-        .addTo(map!.current);
+        newMarker = new maptilersdk.Marker({ color: "#FF0000" })
+          .setLngLat([lng, lat])
+          .addTo(map!.current);
 
-      // Получаем информацию о местоположении с использованием геокодера
-      const response = await fetch(
-        `${GEOCODER_BASE_URL}q=${lat}+${lng}&key=${process.env.REACT_APP_GEOCODER_API_KEY}`
-      );
-      const data = await response.json();
+        const response = await fetch(
+          `${GEOCODER_BASE_URL}q=${lat}+${lng}&key=${process.env.REACT_APP_GEOCODER_API_KEY}`
+        );
+        const data = await response.json();
 
-      setStreet(data.results[0].formatted);
-      console.log("Geocoding data:", data);
+        setStreet(data.results[0].formatted);
+        console.log("Geocoding data:", data);
 
-      if (onMapClick) {
-        onMapClick!({ lng, lat, loc: data.results[0].formatted });
-      }
-    });
+        if (onMapClick) {
+          onMapClick!({ lng, lat, loc: data.results[0].formatted });
+        }
+      });
+    }
 
-    // Убираем маркер при размонтировании компонента
     return () => {
       if (newMarker) {
         newMarker.remove();

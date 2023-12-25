@@ -6,8 +6,8 @@ export interface IEmployee {
   positionId?: number;
   location?: {
     title?: string;
-    lat: number;
     lng: number;
+    lat: number;
   };
   position?: {
     id: number;

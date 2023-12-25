@@ -12,7 +12,8 @@ import { useEffect, useState } from "react";
 import useCustomForm from "../../hooks/useCustomForm";
 import { observer } from "mobx-react-lite";
 import employeesStore from "../../stores/employees-store";
-import { IEmployee } from "../../interfaces/employee.interface";
+import positionsStore from "../../stores/positions-store";
+import { MenuItem } from "@mui/material";
 
 interface Props {
   modalFunction: string;
@@ -21,7 +22,8 @@ interface Props {
     string,
     string,
     any,
-    [number | undefined, number | undefined, string?]
+    [number, number, string],
+    [string, number?]
   ];
   updateLocation?: any;
 }
@@ -30,8 +32,16 @@ const EmployeeDialog = observer(
   ({ modalFunction, employeeId, initialsValue, updateLocation }: Props) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [selectedLoc, setSelectedLoc] = useState({});
+    const [selectedPos, setSelectedPos] = useState({
+      id: 0,
+      title: "",
+    });
     const { firstNameRef, lastNameRef, handleFormSubmit } = useCustomForm();
     const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+      positionsStore.loadPositions();
+    }, []);
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -46,18 +56,35 @@ const EmployeeDialog = observer(
       setSelectedDate(newDate);
     };
 
+    const handleChangePos = (posId: number, posTitle: string) => {
+      setSelectedPos({ id: posId, title: posTitle });
+      console.log(posTitle);
+    };
+
     const handleMapClick = (mapData: {
       lng: number;
       lat: number;
-      date: string;
+      loc: string;
     }) => {
-      const { lng, lat, date } = mapData;
+      const { lng, lat, loc } = mapData;
 
-      setSelectedLoc(mapData);
-      // updateLocation!(lat, lng);
+      setSelectedLoc({ lat, lng, loc });
+      updateLocation?.(mapData);
     };
 
-    console.log("inits", initialsValue?.[3]);
+    useEffect(() => {
+      return handleMapClick({
+        lat: initialsValue?.[3][1]!,
+        lng: initialsValue?.[3][0]!,
+        loc: initialsValue?.[3][2]!,
+      });
+    }, []);
+
+    console.log("LOCCCC", selectedLoc);
+
+    console.log("inits", ...[initialsValue?.[3][0], initialsValue?.[3][1]]);
+
+    console.log("IIINIITs", initialsValue?.[3]);
 
     return (
       <>
@@ -73,7 +100,7 @@ const EmployeeDialog = observer(
         ) : (
           <ActionsButton
             editFoo={handleClickOpen}
-            removedEmployee={() => employeesStore.deleteEmployee(employeeId!)}
+            removedItem={() => employeesStore.deleteEmployee(employeeId!)}
           />
         )}
         <Dialog
@@ -127,7 +154,24 @@ const EmployeeDialog = observer(
                   id={"position title"}
                   helperText="Please select employee position"
                   type={"name"}
-                />
+                  defaultValue={
+                    modalFunction === "edit" ? initialsValue?.[4][0] : ""
+                  }
+                  onChange={(event) => {
+                    const selectedPos = positionsStore.positions.find(
+                      (pos) => pos.title === event.target.value
+                    );
+                    if (selectedPos) {
+                      handleChangePos(selectedPos?.id!, event.target.value);
+                    }
+                  }}
+                >
+                  {positionsStore.positions.map((pos) => (
+                    <MenuItem key={pos.id} value={pos.title}>
+                      {pos.title}
+                    </MenuItem>
+                  ))}
+                </CustomTextField>
               </div>
             </div>
             <h2>Map</h2>
@@ -138,8 +182,8 @@ const EmployeeDialog = observer(
                 ? null
                 : {
                     employeeMarker: {
-                      lat: initialsValue?.[3][0]!,
-                      lng: initialsValue?.[3][1]!,
+                      lng: initialsValue?.[3][0]!,
+                      lat: initialsValue?.[3][1]!,
                       address: initialsValue?.[3][2]!,
                     },
                   })}
@@ -159,16 +203,18 @@ const EmployeeDialog = observer(
                           modalFunction,
                           selectedDate,
                           0,
-                          selectedLoc
+                          selectedLoc,
+                          selectedPos?.id
                         )
                     : () =>
                         handleFormSubmit(
                           modalFunction,
                           selectedDate ? selectedDate : initialsValue?.[2],
                           employeeId,
-                          selectedLoc
-                            ? selectedLoc
-                            : [initialsValue?.[3][1], initialsValue?.[3][0]]
+                          selectedLoc,
+                          selectedPos?.id
+                            ? selectedPos.id
+                            : initialsValue?.[4][1]
                         )
                 }
                 variant="outlined"

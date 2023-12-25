@@ -1,5 +1,6 @@
 package com.wladisluv.server.service;
 
+import com.wladisluv.server.exception.EmployeeNotFoundException;
 import com.wladisluv.server.model.Position;
 import com.wladisluv.server.repository.PositionRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +37,6 @@ public class PositionService implements IPositionService{
 
     @Override
     public void deletePosition(Long id) {
+        positionRepository.deleteById(id);
     }
 }

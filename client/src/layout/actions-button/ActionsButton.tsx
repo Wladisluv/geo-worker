@@ -54,10 +54,10 @@ const StyledMenu = styled((props: MenuProps) => (
 
 interface Props {
   editFoo: () => void;
-  removedEmployee?: () => Promise<void>;
+  removedItem?: () => Promise<void>;
 }
 
-export default function ActionsButton({ editFoo, removedEmployee }: Props) {
+export default function ActionsButton({ editFoo, removedItem }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -97,7 +97,7 @@ export default function ActionsButton({ editFoo, removedEmployee }: Props) {
           </MenuItem>
         </div>
         <div onClick={handleClose}>
-          <MenuItem onClick={removedEmployee} disableRipple>
+          <MenuItem onClick={removedItem} disableRipple>
             <DeleteIcon />
             Remove
           </MenuItem>

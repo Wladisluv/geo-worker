@@ -40,3 +40,13 @@
   font-weight: bold;
   color: black;
 }
+
+.address {
+  display: flex;
+  align-items: center;
+
+  p {
+    font-size: 10px;
+    color: #000000;
+  }
+}

@@ -2,8 +2,15 @@ import { Divider } from "@mui/material";
 
 import styles from "./Positions.module.scss";
 import PositionDialog from "../../layout/position-dialog/PositionDialog";
+import { useEffect } from "react";
+import positionsStore from "../../stores/positions-store";
+import { observer } from "mobx-react-lite";
 
-const Positions = () => {
+const Positions = observer(() => {
+  useEffect(() => {
+    positionsStore.loadPositions();
+  }, []);
+
   return (
     <>
       <div className={styles.top}>
@@ -27,23 +34,35 @@ const Positions = () => {
           }}
           className={styles.divider}
         />
-        <div className={styles.contentItem}>
-          <div className={styles.contentInner}>
-            <div>Backend engineer</div>
-            <div
-              style={{
-                textAlign: "end",
-                marginTop: "-10px",
-              }}
-            >
-              <PositionDialog modalFunction="edit" />
-            </div>
-          </div>
-          <Divider sx={{ marginTop: "10px" }} />
-        </div>
+        {positionsStore.positions.length === 0 ? (
+          <h2 className={styles.stub}>No positions found</h2>
+        ) : (
+          positionsStore.positions.map((pos) => {
+            return (
+              <div className={styles.contentItem} key={pos.id}>
+                <div className={styles.contentInner}>
+                  <div>{pos.title}</div>
+                  <div
+                    style={{
+                      textAlign: "end",
+                      marginTop: "-10px",
+                    }}
+                  >
+                    <PositionDialog
+                      modalFunction="edit"
+                      positionId={pos.id}
+                      initPosTitle={pos.title}
+                    />
+                  </div>
+                </div>
+                <Divider sx={{ marginTop: "10px" }} />
+              </div>
+            );
+          })
+        )}
       </div>
     </>
   );
-};
+});
 
 export default Positions;

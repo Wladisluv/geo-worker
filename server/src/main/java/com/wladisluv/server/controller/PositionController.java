@@ -31,9 +31,8 @@ public class PositionController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deletePosition(@PathVariable Long id) {
+    public void deletePosition(@PathVariable Long id){
         positionService.deletePosition(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @GetMapping("/position/{id}")
     public ResponseEntity<Position> getPositionById(@PathVariable Long id) {

@@ -1,4 +1,4 @@
-import { Divider, InputAdornment, OutlinedInput } from "@mui/material";
+import { Divider, InputAdornment, OutlinedInput, Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 import styles from "./Employees.module.scss";
@@ -60,9 +60,15 @@ const Employees = observer(() => {
                   <div>{`${employee.firstName} ${employee.lastName}`}</div>
                   <div>{employee.position?.title}</div>
                   <div>{employee.hireDate}</div>
-                  <div style={{ display: "flex", alignItems: "center" }}>
+                  <div className={styles.address}>
                     <RoomIcon />
-                    {employee.location?.title?.slice()}
+                    <Tooltip title={employee.location?.title}>
+                      <p>
+                        {employee.location?.title?.length! > 25
+                          ? `${employee.location?.title?.slice(0, 25)}...`
+                          : employee.location?.title}
+                      </p>
+                    </Tooltip>
                   </div>
                   <div
                     style={{
@@ -78,10 +84,11 @@ const Employees = observer(() => {
                         employee.lastName,
                         dayjs(employee.hireDate),
                         [
-                          employee.location?.lat,
-                          employee.location?.lng,
-                          employee.location?.title,
+                          employee.location?.lng!,
+                          employee.location?.lat!,
+                          employee.location?.title!,
                         ],
+                        [employee.position?.title!, employee.position?.id],
                       ]}
                     />
                   </div>
