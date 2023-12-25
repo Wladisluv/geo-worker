@@ -1,11 +1,7 @@
 package com.wladisluv.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.wladisluv.server.helpers.CustomLocalDateDeserializer;
 import jakarta.persistence.*;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "employees")
@@ -29,6 +25,7 @@ public class Employee {
 
     @Embedded
     @AttributeOverrides({
+            @AttributeOverride(name = "address", column = @Column(name = "location_address")),
             @AttributeOverride(name = "lat", column = @Column(name = "location_lat")),
             @AttributeOverride(name = "lng", column = @Column(name = "location_lng"))
     })

@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import employeesStore from "../../stores/employees-store";
 import EmployeeDialog from "../../layout/employee-dialog/EmployeeDialog";
 import dayjs from "dayjs";
+import RoomIcon from "@mui/icons-material/Room";
 
 const Employees = observer(() => {
   useEffect(() => {
@@ -59,7 +60,10 @@ const Employees = observer(() => {
                   <div>{`${employee.firstName} ${employee.lastName}`}</div>
                   <div>{employee.position?.title}</div>
                   <div>{employee.hireDate}</div>
-                  <div>{`${employee.location?.lat} ${employee.location?.lng}`}</div>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <RoomIcon />
+                    {employee.location?.title?.slice()}
+                  </div>
                   <div
                     style={{
                       textAlign: "end",
@@ -73,6 +77,11 @@ const Employees = observer(() => {
                         employee.firstName,
                         employee.lastName,
                         dayjs(employee.hireDate),
+                        [
+                          employee.location?.lat,
+                          employee.location?.lng,
+                          employee.location?.title,
+                        ],
                       ]}
                     />
                   </div>

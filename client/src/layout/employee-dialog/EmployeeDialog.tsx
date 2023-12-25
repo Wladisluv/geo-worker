@@ -13,19 +13,24 @@ import useCustomForm from "../../hooks/useCustomForm";
 import { observer } from "mobx-react-lite";
 import employeesStore from "../../stores/employees-store";
 import { IEmployee } from "../../interfaces/employee.interface";
-import dayjs from "dayjs";
 
 interface Props {
   modalFunction: string;
   employeeId?: number;
-  initialsValue?: [string, string, any];
+  initialsValue?: [
+    string,
+    string,
+    any,
+    [number | undefined, number | undefined, string?]
+  ];
+  updateLocation?: any;
 }
 
 const EmployeeDialog = observer(
-  ({ modalFunction, employeeId, initialsValue }: Props) => {
+  ({ modalFunction, employeeId, initialsValue, updateLocation }: Props) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const { firstNameRef, lastNameRef, formData, handleFormSubmit } =
-      useCustomForm();
+    const [selectedLoc, setSelectedLoc] = useState({});
+    const { firstNameRef, lastNameRef, handleFormSubmit } = useCustomForm();
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -41,9 +46,18 @@ const EmployeeDialog = observer(
       setSelectedDate(newDate);
     };
 
-    console.log("formData!!!", formData);
+    const handleMapClick = (mapData: {
+      lng: number;
+      lat: number;
+      date: string;
+    }) => {
+      const { lng, lat, date } = mapData;
 
-    console.log("DATEEEE!!", initialsValue?.[2]);
+      setSelectedLoc(mapData);
+      // updateLocation!(lat, lng);
+    };
+
+    console.log("inits", initialsValue?.[3]);
 
     return (
       <>
@@ -117,7 +131,19 @@ const EmployeeDialog = observer(
               </div>
             </div>
             <h2>Map</h2>
-            <Map mapCall="modal" />
+            <Map
+              mapCall="modal"
+              onMapClick={handleMapClick}
+              {...(modalFunction === "add"
+                ? null
+                : {
+                    employeeMarker: {
+                      lat: initialsValue?.[3][0]!,
+                      lng: initialsValue?.[3][1]!,
+                      address: initialsValue?.[3][2]!,
+                    },
+                  })}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} variant="outlined" color="error">
@@ -128,12 +154,21 @@ const EmployeeDialog = observer(
                 type="submit"
                 onClick={
                   modalFunction === "add"
-                    ? () => handleFormSubmit(modalFunction, selectedDate)
+                    ? () =>
+                        handleFormSubmit(
+                          modalFunction,
+                          selectedDate,
+                          0,
+                          selectedLoc
+                        )
                     : () =>
                         handleFormSubmit(
                           modalFunction,
                           selectedDate ? selectedDate : initialsValue?.[2],
-                          employeeId
+                          employeeId,
+                          selectedLoc
+                            ? selectedLoc
+                            : [initialsValue?.[3][1], initialsValue?.[3][0]]
                         )
                 }
                 variant="outlined"

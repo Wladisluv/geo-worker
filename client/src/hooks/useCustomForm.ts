@@ -16,6 +16,7 @@ const useCustomForm = () => {
     hireDate: null,
     positionId: 1,
     location: {
+      title: "",
       lat: 0,
       lng: 0,
     },
@@ -29,7 +30,8 @@ const useCustomForm = () => {
   const handleFormSubmit = async (
     forWhat: string,
     selectedDate?: Date | null,
-    employeeId?: number
+    employeeId?: number,
+    employeeLoc?: any
   ) => {
     const newFormData: IEmployee = {
       firstName: firstNameRef.current?.value || "",
@@ -37,8 +39,9 @@ const useCustomForm = () => {
       hireDate: dayjs(selectedDate).format("DD MMM YYYY"),
       positionId: 1,
       location: {
-        lat: 0,
-        lng: 0,
+        title: employeeLoc.loc,
+        lat: employeeLoc.lat,
+        lng: employeeLoc.lng,
       },
     };
 

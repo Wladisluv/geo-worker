@@ -5,6 +5,7 @@ export interface IEmployee {
   hireDate: string | null;
   positionId?: number;
   location?: {
+    title?: string;
     lat: number;
     lng: number;
   };
