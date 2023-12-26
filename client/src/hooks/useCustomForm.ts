@@ -1,24 +1,65 @@
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent, useEffect } from "react";
 import employeesStore from "../stores/employees-store";
 import { IEmployee } from "../interfaces/employee.interface";
 import dayjs from "dayjs";
 
 const useCustomForm = () => {
+  const [hasErrors, setHasErrors] = useState(false);
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
-  const hireDateRef = useRef<HTMLInputElement>(null);
+
+  const [inputErrors, setInputErrors] = useState<Partial<IEmployee>>({
+    firstName: "",
+    lastName: "",
+    hireDate: "",
+  });
 
   const [formData, setFormData] = useState<IEmployee>({
     firstName: "",
     lastName: "",
     hireDate: null,
-    positionId: 1,
+    positionId: 0,
+    position: {
+      title: "",
+    },
     location: {
       title: "",
       lat: 0,
       lng: 0,
     },
   });
+
+  const validateForm = (
+    selectedDate?: Date | null,
+    posId?: number,
+    employeeLoc?: any
+  ) => {
+    let isValid = true;
+    const errors: Partial<IEmployee> = {};
+
+    if (firstNameRef.current?.value === "") {
+      errors.firstName = "First name is required";
+      isValid = false;
+    }
+
+    if (lastNameRef.current?.value === "") {
+      errors.lastName = "Last name is required";
+      isValid = false;
+    }
+
+    if (selectedDate === null) {
+      errors.hireDate = "Hire date is required";
+      isValid = false;
+    }
+
+    setInputErrors(errors);
+    setHasErrors(!isValid);
+    return isValid;
+  };
+
+  useEffect(() => {
+    validateForm();
+  }, [formData]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -32,6 +73,12 @@ const useCustomForm = () => {
     employeeLoc?: any,
     posId?: number
   ) => {
+    const isValid = validateForm(selectedDate);
+
+    if (!isValid) {
+      return;
+    }
+
     const newFormData: IEmployee = {
       firstName: firstNameRef.current?.value || "",
       lastName: lastNameRef.current?.value || "",
@@ -45,7 +92,6 @@ const useCustomForm = () => {
     };
 
     setFormData(newFormData);
-    console.log("FORMDATA", newFormData);
 
     forWhat === "add"
       ? employeesStore.addEmployee(newFormData)
@@ -55,11 +101,12 @@ const useCustomForm = () => {
   return {
     firstNameRef,
     lastNameRef,
-    hireDateRef,
     formData,
     setFormData,
     handleInputChange,
+    inputErrors,
     handleFormSubmit,
+    hasErrors,
   };
 };
 

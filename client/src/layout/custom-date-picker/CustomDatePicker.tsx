@@ -7,13 +7,26 @@ import styles from "./CustomDatePicker.module.scss";
 interface Props {
   onChange: (selectedDate: Date | null) => void;
   defaultValue: Date | null;
+  error: string | undefined;
 }
 
-const CustomDatePicker = ({ onChange, defaultValue }: Props) => {
+const CustomDatePicker = ({ onChange, defaultValue, error }: Props) => {
   return (
     <div className={styles.datePicker}>
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
         <DatePicker onChange={onChange} defaultValue={defaultValue} />
+        {error && (
+          <p
+            style={{
+              fontSize: "0.75rem",
+              marginTop: "3px",
+              marginLeft: "14px",
+              color: "#d32f2f",
+            }}
+          >
+            {error}
+          </p>
+        )}
       </LocalizationProvider>
     </div>
   );

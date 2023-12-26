@@ -8,6 +8,7 @@ enum TextFieldVariants {
 
 interface Props {
   title: string;
+  error?: string;
   focus?: boolean;
   id: string;
   label?: string;
@@ -23,6 +24,7 @@ interface Props {
 
 const CustomTextField = ({
   title,
+  error,
   focus,
   id,
   label,
@@ -39,6 +41,7 @@ const CustomTextField = ({
     <>
       <h2>{title}</h2>
       <TextField
+        error={Boolean(error)}
         autoFocus={focus}
         margin="dense"
         id={id}

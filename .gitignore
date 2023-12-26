@@ -9,6 +9,12 @@
 # production
 /build
 
+### IntelliJ IDEA ###
+.idea
+
+### VS Code ###
+.vscode/
+
 # misc
 /client/.DS_Store
 /client/.env.local

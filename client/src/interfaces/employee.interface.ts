@@ -6,11 +6,11 @@ export interface IEmployee {
   positionId?: number;
   location?: {
     title?: string;
-    lng: number;
-    lat: number;
+    lng?: number;
+    lat?: number;
   };
   position?: {
-    id: number;
+    id?: number;
     title: string;
   };
 }

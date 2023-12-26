@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { observer } from "mobx-react-lite";
 import positionsStore from "../../stores/positions-store";
@@ -46,6 +46,12 @@ const PositionDialog = observer(
 
       setOpen(false);
     };
+
+    useEffect(() => {
+      if (!positionsStore.positions.length) {
+        setOpen(true);
+      }
+    }, []);
 
     return (
       <>
