@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -12,7 +14,6 @@ import WorkIcon from "@mui/icons-material/Work";
 import PublicIcon from "@mui/icons-material/Public";
 
 import styles from "./Sidebar.module.scss";
-import { Link } from "react-router-dom";
 
 const PermanentDrawer = () => {
   const icons = [AccountCircleIcon, WorkIcon, PublicIcon];

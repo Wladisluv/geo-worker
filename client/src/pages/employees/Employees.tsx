@@ -1,18 +1,24 @@
+import { useEffect, useState } from "react";
+
+import { observer } from "mobx-react-lite";
+import employeesStore from "../../stores/employees-store";
+
+import { useSearchEmployees } from "../../hooks/useSearchEmployees";
+import EmployeeDialog from "../../layout/employee-dialog/EmployeeDialog";
+import dayjs from "dayjs";
 import { Divider, InputAdornment, OutlinedInput, Tooltip } from "@mui/material";
+import RoomIcon from "@mui/icons-material/Room";
 import SearchIcon from "@mui/icons-material/Search";
 
 import styles from "./Employees.module.scss";
-import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
-import employeesStore from "../../stores/employees-store";
-import EmployeeDialog from "../../layout/employee-dialog/EmployeeDialog";
-import dayjs from "dayjs";
-import RoomIcon from "@mui/icons-material/Room";
 
 const Employees = observer(() => {
+  const [query, setQuery] = useState("");
   useEffect(() => {
     employeesStore.loadEmployees();
   }, []);
+
+  const searchedEmployees = useSearchEmployees(query);
 
   return (
     <>
@@ -25,6 +31,8 @@ const Employees = observer(() => {
         </div>
       </div>
       <OutlinedInput
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
         sx={{ width: "360px", marginTop: "20px" }}
         endAdornment={
           <InputAdornment position="end">
@@ -51,25 +59,25 @@ const Employees = observer(() => {
           className={styles.divider}
         />
         {employeesStore.employees.length === 0 ? (
-          <h2 className={styles.stub}>No workers found</h2>
+          <h2 className={styles.stub}>No employees found 🔎</h2>
         ) : (
-          employeesStore.employees.map((employee) => {
+          searchedEmployees.map((employee) => {
             return (
               <div className={styles.contentItem} key={employee.id}>
                 <div className={styles.contentInner}>
                   <div>{`${employee.firstName} ${employee.lastName}`}</div>
                   <div>{employee.position?.title}</div>
                   <div>{employee.hireDate}</div>
-                  <div className={styles.address}>
-                    <RoomIcon />
-                    <Tooltip title={employee.location?.title}>
+                  <Tooltip title={employee.location?.title}>
+                    <div className={styles.address}>
+                      <RoomIcon />
                       <p>
                         {employee.location?.title?.length! > 25
                           ? `${employee.location?.title?.slice(0, 25)}...`
                           : employee.location?.title}
                       </p>
-                    </Tooltip>
-                  </div>
+                    </div>
+                  </Tooltip>
                   <div
                     style={{
                       textAlign: "end",

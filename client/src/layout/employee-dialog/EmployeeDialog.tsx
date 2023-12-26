@@ -1,19 +1,22 @@
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import ActionsButton from "../actions-button/ActionsButton";
-import Dialog from "@mui/material/Dialog";
-import styles from "./EmployeeDialog.module.scss";
-import DialogContent from "@mui/material/DialogContent";
-import CustomTextField from "../custom-text-field/CustomTextField";
-import CustomDatePicker from "../custom-date-picker/CustomDatePicker";
-import Map from "../../pages/map/Map";
-import DialogActions from "@mui/material/DialogActions";
 import { useEffect, useState } from "react";
-import useCustomForm from "../../hooks/useCustomForm";
+
 import { observer } from "mobx-react-lite";
 import employeesStore from "../../stores/employees-store";
 import positionsStore from "../../stores/positions-store";
+
+import ActionsButton from "../actions-button/ActionsButton";
+import CustomTextField from "../custom-text-field/CustomTextField";
+import CustomDatePicker from "../custom-date-picker/CustomDatePicker";
+import useCustomForm from "../../hooks/useCustomForm";
+import Map from "../../pages/map/Map";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 import { MenuItem } from "@mui/material";
+
+import styles from "./EmployeeDialog.module.scss";
 
 interface Props {
   modalFunction: string;
@@ -39,10 +42,6 @@ const EmployeeDialog = observer(
     const { firstNameRef, lastNameRef, handleFormSubmit } = useCustomForm();
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-      positionsStore.loadPositions();
-    }, []);
-
     const handleClickOpen = () => {
       setOpen(true);
     };
@@ -52,7 +51,6 @@ const EmployeeDialog = observer(
     };
 
     const handleChange = (newDate: Date | null) => {
-      console.log("Selected date:", newDate);
       setSelectedDate(newDate);
     };
 
@@ -79,12 +77,6 @@ const EmployeeDialog = observer(
         loc: initialsValue?.[3][2]!,
       });
     }, []);
-
-    console.log("LOCCCC", selectedLoc);
-
-    console.log("inits", ...[initialsValue?.[3][0], initialsValue?.[3][1]]);
-
-    console.log("IIINIITs", initialsValue?.[3]);
 
     return (
       <>

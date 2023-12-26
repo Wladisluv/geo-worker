@@ -3,7 +3,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/en-gb";
 
 import styles from "./CustomDatePicker.module.scss";
-import dayjs from "dayjs";
 
 interface Props {
   onChange: (selectedDate: Date | null) => void;

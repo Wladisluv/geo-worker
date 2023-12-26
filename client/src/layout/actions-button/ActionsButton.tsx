@@ -7,7 +7,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import employeesStore from "../../stores/employees-store";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu

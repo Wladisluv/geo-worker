@@ -17,7 +17,6 @@ interface Props {
   helperText?: string;
   defaultValue?: string;
   inputRef?: React.RefObject<HTMLInputElement>;
-  // onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>, id?: number) => void;
   children?: React.ReactNode;
 }

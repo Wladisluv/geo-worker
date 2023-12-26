@@ -1,9 +1,9 @@
 import { useRef, useEffect, useState } from "react";
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
+import employeesStore from "../../stores/employees-store";
 
 import styles from "./Map.module.scss";
-import employeesStore from "../../stores/employees-store";
 
 interface Props {
   mapCall: string;
@@ -11,7 +11,7 @@ interface Props {
   employeeMarker?: { lat: number; lng: number; address?: string };
 }
 
-export default function Map({ mapCall, onMapClick, employeeMarker }: Props) {
+const Map = ({ mapCall, onMapClick, employeeMarker }: Props) => {
   const [street, setStreet] = useState("");
   const mapContainer = useRef(null);
   const map: React.MutableRefObject<any> = useRef(null);
@@ -48,7 +48,6 @@ export default function Map({ mapCall, onMapClick, employeeMarker }: Props) {
     let allEmpMarkers: maptilersdk.Marker | null = null;
 
     if (mapCall === "page") {
-      employeesStore.loadEmployees();
       employeesStore.employees.map((emp) => {
         allEmpMarkers = new maptilersdk.Marker({ color: "#FF0000" })
           .setLngLat([emp.location?.lng!, emp.location?.lat!])
@@ -65,8 +64,6 @@ export default function Map({ mapCall, onMapClick, employeeMarker }: Props) {
     }
 
     setStreet(employeeMarker?.address!);
-
-    console.log(street);
 
     if (mapCall !== "page") {
       map.current.on("click", async (e: any) => {
@@ -89,7 +86,6 @@ export default function Map({ mapCall, onMapClick, employeeMarker }: Props) {
         const data = await response.json();
 
         setStreet(data.results[0].formatted);
-        console.log("Geocoding data:", data);
 
         if (onMapClick) {
           onMapClick!({ lng, lat, loc: data.results[0].formatted });
@@ -118,4 +114,6 @@ export default function Map({ mapCall, onMapClick, employeeMarker }: Props) {
       <div ref={mapContainer} className={styles.map} />
     </div>
   );
-}
+};
+
+export default Map;

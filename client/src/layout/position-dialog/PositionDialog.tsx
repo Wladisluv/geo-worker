@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
-import styles from "./PositionDialog.module.scss";
-import { Button, Dialog, DialogActions, DialogContent } from "@mui/material";
-import CustomTextField from "../custom-text-field/CustomTextField";
-import AddIcon from "@mui/icons-material/Add";
-import ActionsButton from "../actions-button/ActionsButton";
-import positionsStore from "../../stores/positions-store";
-import { IPosition } from "../../interfaces/position.interface";
+import { useState } from "react";
+
 import { observer } from "mobx-react-lite";
+import positionsStore from "../../stores/positions-store";
+
+import CustomTextField from "../custom-text-field/CustomTextField";
+import ActionsButton from "../actions-button/ActionsButton";
+import { IPosition } from "../../interfaces/position.interface";
+import { Button, Dialog, DialogActions, DialogContent } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+
+import styles from "./PositionDialog.module.scss";
 
 interface Props {
   modalFunction: string;

@@ -1,10 +1,12 @@
+import { useEffect } from "react";
+
+import { observer } from "mobx-react-lite";
+import positionsStore from "../../stores/positions-store";
+
+import PositionDialog from "../../layout/position-dialog/PositionDialog";
 import { Divider } from "@mui/material";
 
 import styles from "./Positions.module.scss";
-import PositionDialog from "../../layout/position-dialog/PositionDialog";
-import { useEffect } from "react";
-import positionsStore from "../../stores/positions-store";
-import { observer } from "mobx-react-lite";
 
 const Positions = observer(() => {
   useEffect(() => {
@@ -35,7 +37,7 @@ const Positions = observer(() => {
           className={styles.divider}
         />
         {positionsStore.positions.length === 0 ? (
-          <h2 className={styles.stub}>No positions found</h2>
+          <h2 className={styles.stub}>No positions found 🔎</h2>
         ) : (
           positionsStore.positions.map((pos) => {
             return (
