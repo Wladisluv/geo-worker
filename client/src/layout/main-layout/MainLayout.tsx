@@ -23,6 +23,10 @@ const MainLayout = () => {
             overflow: "scroll",
             borderRadius: "25px",
             backgroundColor: "#fff",
+            "@media (max-width: 1024px)": {
+              left: "20px",
+              right: "20px",
+            },
           }}
         >
           <div className={styles.inner}>

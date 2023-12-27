@@ -22,3 +22,9 @@
     font-size: 22px !important;
   }
 }
+
+@media (max-width: 1024px) {
+  .sidebar {
+    display: none;
+  }
+}

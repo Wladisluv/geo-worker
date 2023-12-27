@@ -130,6 +130,7 @@ const PositionDialog = observer(
                 id={"position title"}
                 label="Position title"
                 type={"name"}
+                className={`${styles.textField}`}
                 onChange={onChange}
               />
             </DialogContent>
@@ -141,6 +142,7 @@ const PositionDialog = observer(
                 id={"name"}
                 defaultValue={initPosTitle}
                 onChange={onChange}
+                className={`${styles.textField}`}
                 type={"name"}
               />
             </DialogContent>

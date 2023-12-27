@@ -20,6 +20,7 @@ interface Props {
   inputRef?: React.RefObject<HTMLInputElement>;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>, id?: number) => void;
   children?: React.ReactNode;
+  className?: string;
 }
 
 const CustomTextField = ({
@@ -36,6 +37,7 @@ const CustomTextField = ({
   inputRef,
   onChange,
   children,
+  className,
 }: Props) => {
   return (
     <>
@@ -54,6 +56,7 @@ const CustomTextField = ({
         defaultValue={defaultValue}
         inputRef={inputRef}
         onChange={onChange}
+        className={className}
       >
         {children}
       </TextField>

@@ -35,3 +35,13 @@
   font-weight: bold;
   color: black;
 }
+
+@media (max-width: 770px) {
+  .top {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 300px;
+    height: 120px;
+  }
+}

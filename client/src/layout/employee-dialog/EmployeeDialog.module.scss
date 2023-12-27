@@ -31,3 +31,22 @@
     font-weight: bold;
   }
 }
+
+@media (max-width: 770px) {
+  .top {
+    flex-direction: column;
+  }
+
+  .middle {
+    flex-direction: column;
+  }
+
+  .textField {
+    max-width: 280px;
+  }
+
+  .selectField {
+    margin-left: -20px !important;
+    max-width: 280px;
+  }
+}

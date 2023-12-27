@@ -140,6 +140,7 @@ const EmployeeDialog = observer(
                   <div style={{ width: "370px" }}>
                     <CustomTextField
                       title={"First name"}
+                      className={styles.textField}
                       error={
                         firstNameRef.current?.value === ""
                           ? inputErrors.firstName
@@ -161,6 +162,7 @@ const EmployeeDialog = observer(
                   <div style={{ width: "370px", height: "121px" }}>
                     <CustomTextField
                       title={"Last name"}
+                      className={styles.textField}
                       error={
                         lastNameRef.current?.value === ""
                           ? inputErrors.lastName
@@ -197,6 +199,7 @@ const EmployeeDialog = observer(
                   <div style={{ marginLeft: "20px", width: "100%" }}>
                     <CustomTextField
                       title={"Position"}
+                      className={styles.selectField}
                       select
                       id={"position title"}
                       helperText={"Please enter employee position"}
