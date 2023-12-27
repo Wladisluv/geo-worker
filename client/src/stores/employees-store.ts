@@ -38,7 +38,7 @@ class EmployeesStore {
       if (index !== -1) {
         this.employees[index] = updatedEmployee;
       }
-      await this.loadEmployees();
+      await this.loadEmployees(); // Редактируем и обновляем
     } catch (error) {
       console.log("Error updating employee from store", error);
     }
@@ -48,7 +48,7 @@ class EmployeesStore {
     try {
       await employeesApi.removeEmployee(id);
       this.employees = this.employees.filter((e) => e.id !== employeeId);
-      await this.loadEmployees();
+      await this.loadEmployees(); // Удаляем и обновляем
     } catch (error) {
       console.log("Error remove employee from store", error);
     }

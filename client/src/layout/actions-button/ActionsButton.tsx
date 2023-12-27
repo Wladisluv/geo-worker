@@ -52,7 +52,7 @@ const StyledMenu = styled((props: MenuProps) => (
 }));
 
 interface Props {
-  editFoo: () => void;
+  editFoo: () => void; // Проверка на функцию диалога
   removedItem?: () => Promise<void>;
 }
 

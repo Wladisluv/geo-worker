@@ -50,7 +50,7 @@ export const positionsApi = {
       console.log("Server response:", response.data);
       return response.data;
     } catch (error) {
-      console.error("Error adding position:", error);
+      console.error("Error remove position:", error);
       throw error;
     }
   },

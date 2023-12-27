@@ -26,7 +26,7 @@ interface Props {
   initialsValue?: [
     string,
     string,
-    any,
+    any, // Начальные значения для инпутов
     [number, number, string],
     [string, number?]
   ];
@@ -48,7 +48,7 @@ const EmployeeDialog = observer(
       title: "",
     });
     const { firstNameRef, lastNameRef, inputErrors, handleFormSubmit } =
-      useCustomForm();
+      useCustomForm(); // рефы и ошибки из хука формы
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -62,7 +62,7 @@ const EmployeeDialog = observer(
     const handleAddClose = () => {
       if (
         firstNameRef.current?.value !== "" &&
-        lastNameRef.current?.value !== "" &&
+        lastNameRef.current?.value !== "" && // Проверка на незаполненные поля
         selectedDate !== null
       ) {
         setOpen(false);
@@ -82,7 +82,7 @@ const EmployeeDialog = observer(
       lat: number;
       loc: string;
     }) => {
-      const { lng, lat, loc } = mapData;
+      const { lng, lat, loc } = mapData; // Сеттинг маркера
 
       setSelectedLoc({ lat, lng, loc });
       updateLocation?.(mapData);
@@ -91,7 +91,7 @@ const EmployeeDialog = observer(
     useEffect(() => {
       return handleMapClick({
         lat: initialsValue?.[3][1]!,
-        lng: initialsValue?.[3][0]!,
+        lng: initialsValue?.[3][0]!, // при монтировании обновляем начальные значения
         loc: initialsValue?.[3][2]!,
       });
     }, []);
@@ -127,7 +127,7 @@ const EmployeeDialog = observer(
                   variant="contained"
                   size="large"
                   endIcon={<ArrowForwardIosIcon />}
-                  onClick={() => navigate("/positions")}
+                  onClick={() => navigate("/positions")} // Если нет позиций перенаправляем на страницу для добавления
                 >
                   Go to add position
                 </Button>
@@ -146,14 +146,14 @@ const EmployeeDialog = observer(
                           : (inputErrors.firstName = "")
                       }
                       defaultValue={
-                        modalFunction === "add" ? "" : initialsValue?.[0]
+                        modalFunction === "add" ? "" : initialsValue?.[0] // Если функция редактирования показываем текущее значение
                       }
                       focus
                       id={"name"}
                       label={"Employee first name"}
                       type={"name"}
                       helperText={
-                        inputErrors.firstName ? inputErrors.firstName : ""
+                        inputErrors.firstName ? inputErrors.firstName : "" // Ставим хелпер в случае ошибки
                       }
                       inputRef={firstNameRef}
                     />
@@ -206,18 +206,22 @@ const EmployeeDialog = observer(
                       }
                       onChange={(event) => {
                         const selectedPos = positionsStore.positions.find(
-                          (pos) => pos.title === event.target.value
+                          (pos) => pos.title === event.target.value // Если есть позиция ставим ее
                         );
                         if (selectedPos) {
                           handleChangePos(selectedPos?.id!, event.target.value);
                         }
                       }}
                     >
-                      {positionsStore.positions.map((pos) => (
-                        <MenuItem key={pos.id} value={pos.title}>
-                          {pos.title}
-                        </MenuItem>
-                      ))}
+                      {positionsStore.positions.map(
+                        (
+                          pos // Перебираем позиции для селекта
+                        ) => (
+                          <MenuItem key={pos.id} value={pos.title}>
+                            {pos.title}
+                          </MenuItem>
+                        )
+                      )}
                     </CustomTextField>
                   </div>
                 </div>
@@ -230,7 +234,7 @@ const EmployeeDialog = observer(
                     : {
                         employeeMarker: {
                           lng: initialsValue?.[3][0]!,
-                          lat: initialsValue?.[3][1]!,
+                          lat: initialsValue?.[3][1]!, // Инит значения для маркера при функции редактирования
                           address: initialsValue?.[3][2]!,
                         },
                       })}
@@ -253,7 +257,7 @@ const EmployeeDialog = observer(
                             handleFormSubmit(
                               modalFunction,
                               selectedDate,
-                              0,
+                              0, // Отдаем значения отсюда в форму
                               selectedLoc,
                               selectedPos?.id
                             )

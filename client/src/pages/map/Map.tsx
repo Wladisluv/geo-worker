@@ -29,7 +29,7 @@ const Map = ({ mapCall, onMapClick, employeeMarker }: Props) => {
 
     map.current = new maptilersdk.Map({
       container: mapContainer.current!,
-      style: maptilersdk.MapStyle.STREETS,
+      style: maptilersdk.MapStyle.STREETS, // Основная карта
       center: [38.9772, 45.0353],
       zoom: zoom,
     });
@@ -37,7 +37,7 @@ const Map = ({ mapCall, onMapClick, employeeMarker }: Props) => {
     if (employeeMarker) {
       map.current = new maptilersdk.Map({
         container: mapContainer.current!,
-        style: maptilersdk.MapStyle.STREETS,
+        style: maptilersdk.MapStyle.STREETS, // Отдельная карта для каждого работника
         center: [employeeMarker?.lng!, employeeMarker?.lat!],
         zoom: zoom,
       });
@@ -49,8 +49,8 @@ const Map = ({ mapCall, onMapClick, employeeMarker }: Props) => {
 
     if (mapCall === "page") {
       employeesStore.employees.map((emp) => {
-        const marker = new maptilersdk.Marker({ color: "#FF0000" })
-          .setLngLat([emp.location?.lng!, emp.location?.lat!])
+        const marker = new maptilersdk.Marker({ color: "#FF0000" }) // Если карта расположена на странице
+          .setLngLat([emp.location?.lng!, emp.location?.lat!]) // Добавляем на нее маркеры всех существующих рабочих
           .addTo(map!.current);
 
         const popup = new maptilersdk.Popup()
@@ -63,6 +63,7 @@ const Map = ({ mapCall, onMapClick, employeeMarker }: Props) => {
           .setMaxWidth("300px");
 
         marker.getElement().addEventListener("mouseenter", () => {
+          // Попап при наведении для каждого работника
           popup.addTo(map!.current);
         });
 
@@ -78,7 +79,7 @@ const Map = ({ mapCall, onMapClick, employeeMarker }: Props) => {
       empMarker = new maptilersdk.Marker({
         color: "#FF0000",
       })
-        .setLngLat([employeeMarker?.lng!, employeeMarker?.lat!])
+        .setLngLat([employeeMarker?.lng!, employeeMarker?.lat!]) // Добавление маркера на карту конкретного работника
         .addTo(map!.current);
     }
 
@@ -95,16 +96,16 @@ const Map = ({ mapCall, onMapClick, employeeMarker }: Props) => {
           newMarker.remove();
         }
 
-        newMarker = new maptilersdk.Marker({ color: "#FF0000" })
+        newMarker = new maptilersdk.Marker({ color: "#FF0000" }) // Добавляем маркер на основную мапу
           .setLngLat([lng, lat])
           .addTo(map!.current);
 
         const response = await fetch(
-          `${GEOCODER_BASE_URL}q=${lat}+${lng}&key=${process.env.REACT_APP_GEOCODER_API_KEY}`
+          `${GEOCODER_BASE_URL}q=${lat}+${lng}&key=${process.env.REACT_APP_GEOCODER_API_KEY}` // преобразуем широту и долготу в улицу
         );
         const data = await response.json();
 
-        setStreet(data.results[0].formatted);
+        setStreet(data.results[0].formatted); // Кладем отсортированную улицу в стейт
 
         if (onMapClick) {
           onMapClick!({ lng, lat, loc: data.results[0].formatted });
@@ -121,7 +122,7 @@ const Map = ({ mapCall, onMapClick, employeeMarker }: Props) => {
 
   return (
     <div
-      className={mapCall === "page" ? styles.pageMapWrap : styles.modalMapWrap}
+      className={mapCall === "page" ? styles.pageMapWrap : styles.modalMapWrap} // Разные размера в зависимости от вызова
     >
       {mapCall === "page" ? (
         <>

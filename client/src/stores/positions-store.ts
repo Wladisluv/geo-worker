@@ -51,6 +51,7 @@ class PositionsStore {
       await this.loadPositions();
     } catch (error) {
       console.log("Error remove employee from store", error);
+      throw error;
     }
   }
 }

@@ -3,7 +3,7 @@ export interface IEmployee {
   firstName: string;
   lastName: string;
   hireDate: string | null;
-  positionId?: number;
+  positionId?: number | null;
   location?: {
     title?: string;
     lng?: number;

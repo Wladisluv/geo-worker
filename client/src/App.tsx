@@ -12,7 +12,7 @@ import "./utils/scss/global.scss";
 
 const App = () => {
   useEffect(() => {
-    positionsStore.loadPositions();
+    positionsStore.loadPositions(); // Вызываем при первом рендере для страницы работников
   }, []);
   return (
     <div>
@@ -21,7 +21,8 @@ const App = () => {
           <Route path="employees" element={<Employees />} />
           <Route path="positions" element={<Positions />} />
           <Route path="map" element={<Map mapCall="page" />} />
-          <Route path="" element={<Employees />} />
+          <Route path="" element={<Employees />} />{" "}
+          {/** Роут работников в качестве основного **/}
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

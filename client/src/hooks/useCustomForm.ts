@@ -18,7 +18,7 @@ const useCustomForm = () => {
     firstName: "",
     lastName: "",
     hireDate: null,
-    positionId: 0,
+    positionId: null,
     position: {
       title: "",
     },
@@ -82,8 +82,8 @@ const useCustomForm = () => {
     const newFormData: IEmployee = {
       firstName: firstNameRef.current?.value || "",
       lastName: lastNameRef.current?.value || "",
-      hireDate: dayjs(selectedDate).format("DD MMM YYYY"),
-      positionId: posId,
+      hireDate: dayjs(selectedDate).format("DD MMM YYYY"), // Собираем дату с элементов в диалоге
+      positionId: posId || null,
       location: {
         title: employeeLoc.loc,
         lng: employeeLoc.lng,

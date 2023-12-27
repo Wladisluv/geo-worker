@@ -7,6 +7,7 @@ import { Box } from "@mui/material";
 import styles from "./MainLayout.module.scss";
 
 const MainLayout = () => {
+  // Используем как обертку над всеми страницами
   return (
     <div>
       <Sidebar />

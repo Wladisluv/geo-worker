@@ -73,7 +73,7 @@ const Employees = observer(() => {
                       <RoomIcon />
                       <p>
                         {employee.location?.title?.length! > 25
-                          ? `${employee.location?.title?.slice(0, 25)}...`
+                          ? `${employee.location?.title?.slice(0, 25)}...` // Обрезаем если >25 символов
                           : employee.location?.title}
                       </p>
                     </div>
@@ -84,7 +84,7 @@ const Employees = observer(() => {
                       marginTop: "-10px",
                     }}
                   >
-                    <EmployeeDialog
+                    <EmployeeDialog // Диалог для редактирования
                       modalFunction="edit"
                       employeeId={employee.id}
                       initialsValue={[
