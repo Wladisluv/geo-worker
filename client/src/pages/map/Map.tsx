@@ -49,9 +49,28 @@ const Map = ({ mapCall, onMapClick, employeeMarker }: Props) => {
 
     if (mapCall === "page") {
       employeesStore.employees.map((emp) => {
-        allEmpMarkers = new maptilersdk.Marker({ color: "#FF0000" })
+        const marker = new maptilersdk.Marker({ color: "#FF0000" })
           .setLngLat([emp.location?.lng!, emp.location?.lat!])
           .addTo(map!.current);
+
+        const popup = new maptilersdk.Popup()
+          .setHTML(
+            `<div class="${styles.markerPopup}">
+            <h2>${emp.firstName} ${emp.lastName}</h2>
+            <p>${emp.position?.title}</p>
+            </div>`
+          )
+          .setMaxWidth("300px");
+
+        marker.getElement().addEventListener("mouseenter", () => {
+          popup.addTo(map!.current);
+        });
+
+        marker.getElement().addEventListener("mouseleave", () => {
+          popup.remove();
+        });
+
+        marker.setPopup(popup);
       });
     }
 

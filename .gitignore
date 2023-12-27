@@ -10,10 +10,12 @@
 /build
 
 ### IntelliJ IDEA ###
-.idea
+/.idea
 
 ### VS Code ###
-.vscode/
+/client/.vscode/
+
+/.DS_Store
 
 # misc
 /client/.DS_Store
