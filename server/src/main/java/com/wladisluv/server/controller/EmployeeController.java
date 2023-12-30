@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/employees")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "https://geo-worker.vercel.app")
 public class EmployeeController {
     private final IEmployeeService employeeService;
     @GetMapping

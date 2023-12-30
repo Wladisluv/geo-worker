@@ -3,6 +3,10 @@
   width: 100%;
   height: calc(100vh - 236px);
 
+  @media (max-width: 770px) {
+    height: calc(100vh - 290px);
+  }
+
   .map {
     margin-top: -20px;
     position: absolute;

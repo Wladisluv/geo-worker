@@ -20,7 +20,6 @@ const MainLayout = () => {
             right: "20px",
             left: "220px",
             bottom: "20px",
-            overflow: "scroll",
             borderRadius: "25px",
             backgroundColor: "#fff",
             "@media (max-width: 1024px)": {

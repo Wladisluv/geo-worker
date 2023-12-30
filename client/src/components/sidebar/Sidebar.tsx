@@ -34,7 +34,7 @@ const Sidebar = ({ open, handleSidebarToggle }: Props) => {
         {["Employees", "Positions", "Map"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <Link to={text.toLowerCase()} style={{ width: "100%" }}>
-              <ListItemButton>
+              <ListItemButton onClick={handleSidebarToggle}>
                 <ListItemIcon style={{ color: "#fff" }}>
                   {React.createElement(icons[index])}
                 </ListItemIcon>

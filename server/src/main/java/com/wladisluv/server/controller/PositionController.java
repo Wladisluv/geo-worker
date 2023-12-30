@@ -14,6 +14,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/positions")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "https://geo-worker.vercel.app")
 public class PositionController {
     private final IPositionService positionService;
     @GetMapping
