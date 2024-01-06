@@ -51,6 +51,12 @@
   }
 }
 
+.mobileEmployee {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 @media (max-width: 770px) {
   .top {
     display: flex;

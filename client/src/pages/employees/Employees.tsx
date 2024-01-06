@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { Divider, InputAdornment, OutlinedInput, Tooltip } from "@mui/material";
 import RoomIcon from "@mui/icons-material/Room";
 import SearchIcon from "@mui/icons-material/Search";
+import InfoIcon from "@mui/icons-material/Info";
 
 import styles from "./Employees.module.scss";
 import EmployeeAboutPopup from "../../layout/employee-about-popup/EmployeeAboutPopup";
@@ -22,10 +23,6 @@ const Employees = observer(() => {
   }, []);
 
   const searchedEmployees = useSearchEmployees(query);
-
-  const handleClickOpen = () => {
-    setAboutEmpOpen(true);
-  };
 
   const handleAboutEmpClose = () => {
     setAboutEmpOpen(false);
@@ -148,9 +145,10 @@ const Employees = observer(() => {
                     close={handleAboutEmpClose}
                   />
                   <div className={styles.contentInner}>
-                    <div
-                      onClick={() => setAboutEmpOpen(true)}
-                    >{`${employee.firstName} ${employee.lastName}`}</div>
+                    <div className={styles.mobileEmployee}>
+                      <InfoIcon onClick={() => setAboutEmpOpen(true)} />
+                      {`${employee.firstName} ${employee.lastName}`}
+                    </div>
                     <div
                       style={{
                         textAlign: "end",
